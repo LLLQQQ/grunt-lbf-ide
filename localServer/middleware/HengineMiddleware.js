@@ -1,0 +1,102 @@
+/**
+ * Created by apple on 14-5-20.
+ */
+var path = require('path'),
+    fs = require('fs'),
+    url = require('url'),
+    util = require('./helper/util'),
+    hengineClient = require('../lib/hengineClient');
+
+// todo
+// setting up hengine
+
+module.exports = exports = {
+    page: function(conf){
+        console.info('[connect] use hengine.page middleware');
+
+        return function(req, res, next){
+            var filePath = url.parse(req.url).pathname,
+                dataPath = path.normalize(conf.root + filePath);
+
+            var HAS_HTML_EXT = /\.html/;
+            if(!HAS_HTML_EXT.test(req.url)) {
+                next();
+                return;
+            }
+            // to support a.html?param1=1&param2=2...
+            dataPath = dataPath.replace(/\.html.*/, '.json');
+
+            fs.readFile(dataPath, {'encoding': 'utf-8'}, function(err, data){
+                if(err){
+                    res.writeHead(404);
+                    res.end(dataPath + ' not found, ' + err.message);
+
+                    next(err);
+                    return;
+                }
+
+                // remove the comment of json files
+                data = util.removeJsonComment(data);
+
+                hengineClient(
+                    {
+                        method: 'POST',
+                        host: conf.host,
+                        hostname: conf.hostname,
+                        port: conf.port,
+                        path: filePath,
+                        data: data
+                    },
+
+                    function(err, html){
+                        if(err){
+                            res.writeHead(500);
+                            res.end(err.message);
+
+                            next(err);
+                            return;
+                        }
+
+                        res.writeHead(200, {
+                            'Content-Type': 'text/html'
+                        });
+                        res.end(html);
+                    }
+                );
+            });
+        }
+    },
+
+    template: function(conf){
+        console.info('[connect] use hengine.template middleware');
+
+        return function(req, res, next){
+            var filePath = url.parse(req.url).pathname;
+
+            hengineClient(
+                {
+                    method: 'GET',
+                    host: conf.host,
+                    hostname: conf.hostname,
+                    port: conf.port,
+                    path: '/template/' + filePath
+                },
+
+                function(err, html){
+                    if(err){
+                        res.writeHead(500);
+                        res.end(err.message);
+
+                        next(err);
+                        return;
+                    }
+
+                    res.writeHead(200, {
+                        'Content-Type': 'text/html'
+                    });
+                    res.end(html);
+                }
+            );
+        }
+    }
+};

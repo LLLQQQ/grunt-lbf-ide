@@ -1,0 +1,17 @@
+.icon-file {
+    background: url("<%==items[0].image%>") no-repeat;
+}
+<% for(var i=0, len=items.length, item, name, state; i<len; i++) { %>
+    <% item = items[i]; %>
+    <% name = item.name; %>
+    <% state = /(.*)-(hover|active)/.exec(name); %>
+    <% if(state){ %>
+.<%==state[1]%>:<%==state[2]%> {    
+    background-position: <%==item.offset_x%>px <%==item.offset_y%>px;
+}
+    <% } else { %>
+.<%==name%>:extend(.icon-file) {   
+    background-position: <%==item.offset_x%>px <%==item.offset_y%>px;
+}
+    <% } %>
+<% } %>
