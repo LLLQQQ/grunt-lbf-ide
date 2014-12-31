@@ -11,7 +11,9 @@ $ npm install --save lbf-ide-grunt
 
 Use in Gruntfile.js
 ```javascript
-require('lbf-ide-grunt').loadTasks();
+module.exports = function( grunt ){
+    require('lbf-ide-grunt').loadTasks( grunt );
+};
 ```
 
 ## Getting To Know LBF
