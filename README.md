@@ -3,13 +3,14 @@
  
 ## Usage
 > Usually we use this module inside [generator-lbf-app](https://github.com/lbfteam/generator-lbf-app), you can also use it independently.
+
 Install
 ```bash
 $ npm install --save lbf-ide-grunt
 ```
 
+Use in Gruntfile.js
 ```javascript
-// in Gruntfile.js
 require('lbf-ide-grunt').loadTasks();
 ```
 
