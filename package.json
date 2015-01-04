@@ -1,6 +1,6 @@
 {
   "name": "lbf-ide-grunt",
-  "version": "1.0.0",
+  "version": "0.1.4",
   "description": "Grunt Tasks for LBF IDE",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/lbfteam/lbf-ide-grunt",
   "dependencies": {
+    "MD5": "^1.2.1",
     "async": "^0.9.0",
     "connect": "^3.3.3",
     "connect-livereload": "^0.5.2",

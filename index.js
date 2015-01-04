@@ -1,12 +1,12 @@
 
 exports.loadTasks = function(grunt){
     // hengine tasks
-    grunt.loadTasks(require('./hengine/tasks/http'));
-    grunt.loadTasks(require('./hengine/tasks/tcache'));
+    grunt.loadTasks(__dirname + '/hengine/tasks');
+    grunt.loadTasks(__dirname + '/hengine/tasks');
 
     // local server
-    grunt.loadTasks(require('./localServer/tasks/localServer'));
+    grunt.loadTasks(__dirname + '/localServer/tasks');
 
     // sorry no 304
-    grunt.loadTasks(require('./sorryNo304/tasks/sorryNo304'));
+    grunt.loadTasks(__dirname + '/sorryNo304/tasks');
 };

@@ -6,7 +6,6 @@ var http = require('http'),
     LivereloadMiddleware = require('connect-livereload'),
     CGIMiddleware = require('../middleware/CGIMiddleware'),
     HengineMiddleware = require('../middleware/HengineMiddleware'),
-    comboStatic = require('../middleware/ComboStaticMiddleware'),
     // remove version && set header expire time
     removeVersion = require('../middleware/RemoveVersionMiddleware');
 
@@ -16,7 +15,6 @@ var defaults = {
         ['/page', 'page'],
         ['/template', 'template'],
         ['/mockup', 'static'],
-        ['/c/=', 'comboStatic'],
         ['/', 'cgi']
     ]
 };
@@ -28,7 +26,6 @@ var middlewares = {
     static: function(options){
         return connect.static(options.root);
     },
-    comboStatic: comboStatic,
     cgi: CGIMiddleware
 };
 
