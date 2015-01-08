@@ -249,30 +249,6 @@ module.exports = exports = function(grunt) {
     // 这个_release是给watch使用的，请不要主动使用她
     grunt.registerTask('_no304_release', 'generating version control..', function() {
 
-        var options = grunt.config.get('no304_release')['options'];
-
-        // todo
-        // add watch
-
-        // 配置以下3个任务，然后run
-        // clean:no304_clean_delete_files', 'copy:no304_copy_releaseDir', 'copy:no304_copy_srcToRelease
-        grunt.config.merge({
-
-            clean: {
-                // 删除单个file或少数几个files
-                no304_clean_deleteReleaseFiles: options['no304_clean_deleteReleaseFiles']
-            },
-
-            copy: {
-                // copy a{md5}.js to release
-                no304_copy_releaseDir: options['no304_copy_releaseDir'],
-
-                // copy src to release
-                no304_copy_srcToRelease: options['no304_copy_srcToRelease']
-            }
-
-        });
-
         grunt.task.run(['generateDeps', 'outputAliasDeps', 'clean:no304_clean_deleteReleaseFiles', 'copy:no304_copy_releaseDir', 'copy:no304_copy_srcToRelease']);
     });
 
