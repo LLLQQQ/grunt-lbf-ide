@@ -16,6 +16,7 @@
     "LBF",
     "IDE"
   ],
+  "main": "index.js",
   "author": "amoschen,patrickliu",
   "license": "ISC",
   "bugs": {

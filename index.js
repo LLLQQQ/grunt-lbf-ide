@@ -1,5 +1,5 @@
 
-exports.loadTasks = function(grunt){
+exports = function(grunt) {
     // hengine tasks
     grunt.loadTasks(__dirname + '/hengine/tasks');
     grunt.loadTasks(__dirname + '/hengine/tasks');
