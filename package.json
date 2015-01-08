@@ -1,6 +1,6 @@
 {
   "name": "lbf-ide-grunt",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Grunt Tasks for LBF IDE",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,6 @@
     "LBF",
     "IDE"
   ],
-  "main": "index.js",
   "author": "amoschen,patrickliu",
   "license": "ISC",
   "bugs": {
