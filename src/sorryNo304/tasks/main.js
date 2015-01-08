@@ -8,7 +8,7 @@ var fs = require('fs'),
     walk = require('./../../utils/traverseDir'),
     grep = require('./../../deps/grep'),
     jsBeautify = require('js-beautify').js_beautify,
-    md5 = require('../../utils/md5'),
+    md5 = require('./../../utils/md5'),
     get16MD5 = md5.get16MD5,
     path = require('path');
 
@@ -41,7 +41,7 @@ module.exports = exports = function(grunt) {
     grunt.registerTask('generateDeps', 'generate the deps of the js files in the src dir', function() {
 
         // get data from release.generateDeps
-        var options = grunt.config.get('release')['no304_generateDeps']['options'],
+        var options = grunt.config.get('no304_release')['options']['no304_generateDeps']['options'],
         // src root path
             src = options.src,
             exportFilePath = options.exportFilePath;
@@ -79,7 +79,7 @@ module.exports = exports = function(grunt) {
         grunt.log.warn('如果你发现这个任务一直在loading. 那极有可能发生了冲突。ctrl+c中止这个任务。手动去src目录下更新一下吧。');
         // 1. 生成js file
         // 2. 在localsJson写入
-        var options = grunt.config.get('release')['options']['no304_outputAliasDeps']['options'],
+        var options = grunt.config.get('no304_release')['options']['no304_outputAliasDeps']['options'],
         // get the options value
             src = options.src,
         // 依赖的文件deps
@@ -87,8 +87,6 @@ module.exports = exports = function(grunt) {
             hengineRoot = options.hengineRoot,
             staticPrefix = options.staticPrefix,
             localsJsonPath = options.localsJson;
-
-        console.log(options);
 
         // read the moduleDeps
         var moduleDeps = fs.readFileSync(depsFilePath, {"encoding": "utf-8"});
@@ -248,14 +246,10 @@ module.exports = exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-
     // 这个_release是给watch使用的，请不要主动使用她
-    grunt.registerTask('_release', 'generating version control..', function() {
+    grunt.registerTask('_no304_release', 'generating version control..', function() {
 
-        var options = grunt.config.get('release')['options'];
+        var options = grunt.config.get('no304_release')['options'];
 
         // todo
         // add watch
@@ -283,25 +277,7 @@ module.exports = exports = function(grunt) {
     });
 
     // 这个release, 用于生成deps, 以及生成alias并写入locals.json里面。并将js文件加上后缀然后复制到release文件夹当中
-    grunt.registerTask('release', 'generating version control..', function() {
-
-        var options = this.options();
-
-        // 配置以下3个任务，然后run
-        // 'clean:no304_clean_release', 'copy:no304_copy_releaseDir', 'copy:no304_copy_srcToRelease'
-        grunt.config.merge({
-
-            clean: {
-                no304_clean_release: options['no304_clean_release']
-            },
-
-            copy: {
-                // copy a{md5}.js to release
-                no304_copy_releaseDir: options['no304_copy_releaseDir'],
-                // copy src to release
-                no304_copy_srcToRelease: options['no304_copy_srcToRelease']
-            }
-        });
+    grunt.registerMultiTask('no304_release', 'generating version control..', function() {
 
         grunt.task.run(['generateDeps', 'outputAliasDeps', 'clean:no304_clean_release', 'copy:no304_copy_releaseDir', 'copy:no304_copy_srcToRelease']);
     });

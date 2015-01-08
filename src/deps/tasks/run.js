@@ -6,7 +6,7 @@
  */
 
 var fs = require('fs'),
-    walk = require('./../../utils/traverseDir'),
+    walk = require('./.././traverseDir'),
     grep = require('./../grep'),
     jsBeautify = require('js-beautify').js_beautify;
 
