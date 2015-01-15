@@ -1,8 +1,8 @@
 {
-  "name": "lbf-ide-grunt",
-  "version": "0.1.6",
+  "name": "grunt-lbf-ide",
+  "version": "0.0.1",
   "description": "Grunt Tasks for LBF IDE",
-  "main": "tasks/lbf-ide-grunt.js",
+  "main": "./src/grunt-lbf-ide.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
