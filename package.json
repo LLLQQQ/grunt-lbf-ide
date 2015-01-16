@@ -1,6 +1,6 @@
 {
   "name": "grunt-lbf-ide",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Grunt Tasks for LBF IDE",
   "main": "./src/grunt-lbf-ide.js",
   "scripts": {
@@ -16,7 +16,16 @@
     "LBF",
     "IDE"
   ],
-  "author": "amoschen,patrickliu",
+  "author": {
+    "name": "Amos Chen",
+    "email": "chenzhihao@126.com",
+    "url": "https://github.com/mice530"
+  },
+  "contributors": [{
+    "name": "patrickliu",
+    "email": "patrickliu@tencent.com",
+    "url": "https://github.com/git-patrickliu"
+  }],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lbfteam/lbf-ide-grunt/issues"
