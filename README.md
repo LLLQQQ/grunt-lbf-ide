@@ -1,4 +1,4 @@
-# lbf-ide-grunt
+# grunt-lbf-ide
 > Grunt Tasks for LBF IDE
  
 ## Usage
@@ -6,13 +6,13 @@
 
 Install
 ```bash
-$ npm install --save lbf-ide-grunt
+$ npm install --save grunt-lbf-ide
 ```
 
 Use in Gruntfile.js
 ```javascript
 module.exports = function( grunt ){
-    require('lbf-ide-grunt').loadTasks( grunt );
+    require('grunt-lbf-ide').loadTasks( grunt );
 };
 ```
 
