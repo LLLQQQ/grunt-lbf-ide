@@ -6,12 +6,12 @@
 
 module.exports = function(grunt) {
     // hengine tasks
-    grunt.loadTasks('./src/hengine/tasks');
-    grunt.loadTasks('./src/hengine/tasks');
+    grunt.loadTasks(__dirname + '/src/hengine/tasks');
+    grunt.loadTasks(__dirname + '/src/hengine/tasks');
 
     // local server
-    grunt.loadTasks('./src/localServer/tasks');
+    grunt.loadTasks(__dirname + '/src/localServer/tasks');
 
     // sorry no 304
-    grunt.loadTasks('./src/sorryNo304/tasks');
+    grunt.loadTasks(__dirname + '/src/sorryNo304/tasks');
 };
