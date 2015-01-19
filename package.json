@@ -1,14 +1,14 @@
 {
   "name": "grunt-lbf-ide",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Grunt Tasks for LBF IDE",
-  "main": "./src/grunt-lbf-ide.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lbfteam/lbf-ide-grunt.git"
+    "url": "https://github.com/lbfteam/grunt-lbf-ide.git"
   },
   "keywords": [
     "grunt",
@@ -28,9 +28,9 @@
   }],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lbfteam/lbf-ide-grunt/issues"
+    "url": "https://github.com/lbfteam/grunt-lbf-ide/issues"
   },
-  "homepage": "https://github.com/lbfteam/lbf-ide-grunt",
+  "homepage": "https://github.com/lbfteam/grunt-lbf-ide",
   "dependencies": {
     "MD5": "^1.2.1",
     "async": "^0.9.0",
