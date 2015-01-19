@@ -28,9 +28,8 @@ var helper = function(req, callback) {
         queryStringObj = queryString.parse(objectUrl.query);
         this.tools.body = queryStringObj;
         callback && callback(null, this.tools);
-    } else if(method === 'post') {
-        console.log('[CGIHelper] this is a post method');
-        // 如果是post方法
+    } else {
+        // 如果是其他方法
         var chunks = [],
             size = 0;
 
@@ -47,7 +46,7 @@ var helper = function(req, callback) {
             } else {
                 var body = self.tools.body = Buffer.concat(chunks, size).toString();
                 try{
-                    self.tools.body = queryString.parse(body);
+                    self.tools.body = JSON.parse(body);
                     callback && callback(null, self.tools);
 
                 } catch(err){
