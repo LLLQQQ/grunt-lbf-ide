@@ -3,6 +3,7 @@
  */
 var http = require('http'),
     connect = require('connect'),
+    bodyParser = require('body-parser'),
     LivereloadMiddleware = require('connect-livereload'),
     CGIMiddleware = require('../middleware/CGIMiddleware'),
     HengineMiddleware = require('../middleware/HengineMiddleware'),
@@ -38,7 +39,10 @@ module.exports = exports = function(grunt){
         grunt.log.writeln('local server configuring routes');
         console.log(routes);
 
-        var app = connect().use(LivereloadMiddleware(options.livereload));
+        var app = connect()
+                    .use(LivereloadMiddleware(options.livereload))
+                    .use(bodyParser.json())
+                    .use(bodyParser.urlencoded({ extended: false }));
 
         routes.forEach(function(conf){
             var mw = middlewares[conf[1]];
