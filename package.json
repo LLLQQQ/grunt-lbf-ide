@@ -1,6 +1,6 @@
 {
   "name": "grunt-lbf-ide",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Grunt Tasks for LBF IDE",
   "main": "index.js",
   "scripts": {

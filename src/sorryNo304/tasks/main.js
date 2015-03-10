@@ -133,93 +133,104 @@ module.exports = exports = function(grunt) {
                 htmlNS = getHtmlNS(hengineRoot, crtPath);
 
 
-            var HTML_USE_REGEXP = /LBF\.use\s*\(\s*\[((\s*['"][^'"]+['"]\s*,?)+)\]/,
-                matches = HTML_USE_REGEXP.exec(retHtml);
+            var HTML_USE_REGEXP = /LBF\.use\s*\(\s*\[((\s*['"][^'"]+['"]\s*,?)+)\]/g,
+                tmpRetHtml = retHtml,
+                matches = [];
+
+            tmpRetHtml.replace(HTML_USE_REGEXP, function(m, m1) {
+                m1 && matches.push(m1);
+            });
 
             // if match
-            if(matches && matches.length >= 2) {
-                // by regexp we get the deps of use modules
-                // such as LBF.use(['a.b.c', 'c.e.f'], function... -> we get ['a.b.c', 'c.e.f'] out
-                var useDeps = matches[1].replace(/(['"\s])/g, ''),
-                    useDepsArr = useDeps.split(',');
+            if(matches.length > 0) {
 
-                var parseDeps = useDepsArr,
-                    isInParseDeps = {};
+                var curDeps = {};
+                matches.forEach(function(match) {
 
-                // traverse useDepsArr and mark the key in it as true in isInParseDeps
-                useDepsArr.forEach(function(item) {
-                    isInParseDeps[item] = true;
-                });
+                    // by regexp we get the deps of use modules
+                    // such as LBF.use(['a.b.c', 'c.e.f'], function... -> we get ['a.b.c', 'c.e.f'] out
+                    var useDeps = match.replace(/(['"\s])/g, ''),
+                        useDepsArr = useDeps.split(',');
 
-                for(var i = 0; i < useDepsArr.length; i++) {
-                    var deps = useDepsArr[i],
-                        getModuleDeps = moduleDeps[deps];
 
-                    if(getModuleDeps) {
-                        getModuleDeps.forEach(function(item) {
-                            // if item is not in isInParseDeps
-                            // which means this is not processed
-                            if(!isInParseDeps[item]) {
-                                isInParseDeps[item] = true;
-                                useDepsArr.push(item);
-                            }
-                        });
-                    }
-                }
+                    var parseDeps = useDepsArr,
+                        isInParseDeps = {};
 
-                // convert isInParseDeps to array
-                useDepsArr = [];
-                for(var i in isInParseDeps) {
-                    useDepsArr.push(i);
-                }
+                    // traverse useDepsArr and mark the key in it as true in isInParseDeps
+                    useDepsArr.forEach(function(item) {
+                        isInParseDeps[item] = true;
+                    });
 
-                // calculate the hash value of files in parseDeps
-                // src is the root of the files in parseDeps
-                // convert the deps to absolute path
-                // staticPrefix.a.c -> root/a/c.js
-                for(var i = parseDeps.length - 1; i >= 0; i--) {
-                    var tmpDeps = parseDeps[i],
-                        tmpDepsArr = tmpDeps.split('.'),
-                        startWithPrefix = false;
+                    for(var i = 0; i < useDepsArr.length; i++) {
+                        var deps = useDepsArr[i],
+                            getModuleDeps = moduleDeps[deps];
 
-                    // we only deal with the parseDeps starts with staticPrefix
-                    for(var j = 0, len = staticPrefix.length; j < len; j++) {
-                        var prefix = staticPrefix[j];
-                        if (tmpDepsArr[0] === prefix) {
-                            startWithPrefix = true;
+                        if(getModuleDeps) {
+                            getModuleDeps.forEach(function(item) {
+                                // if item is not in isInParseDeps
+                                // which means this is not processed
+                                if(!isInParseDeps[item]) {
+                                    isInParseDeps[item] = true;
+                                    useDepsArr.push(item);
+                                }
+                            });
                         }
                     }
-                    if(startWithPrefix) {
 
-                        tmpDepsArr.shift();
-                        // if starts with prefix, generate the absolute path for further reading
-                        parseDeps[i] = {
-                            path: src + '/' + tmpDepsArr.join('/') + '.js',
-                            ns: parseDeps[i]
-                        };
-
-                    } else {
-                        // remove this item
-                        parseDeps.splice(i, 1);
+                    // convert isInParseDeps to array
+                    useDepsArr = [];
+                    for(var i in isInParseDeps) {
+                        useDepsArr.push(i);
                     }
-                }
 
-                var curAlias = {};
-                // finally we get the used files of parseDeps in the matched html
-                // then we read the files in parseDeps and calculate the hash value
-                for(var i = 0, len = parseDeps.length; i < len; i++) {
-                    var fsContent = fs.readFileSync(parseDeps[i].path);
-                    curAlias[parseDeps[i].ns] = parseDeps[i].ns.replace(/\./g, '\/') + '-' + get16MD5(fsContent) + '.js';
-                }
+                    // calculate the hash value of files in parseDeps
+                    // src is the root of the files in parseDeps
+                    // convert the deps to absolute path
+                    // staticPrefix.a.c -> root/a/c.js
+                    for(var i = parseDeps.length - 1; i >= 0; i--) {
+                        var tmpDeps = parseDeps[i],
+                            tmpDepsArr = tmpDeps.split('.'),
+                            startWithPrefix = false;
 
-                aliasObj[htmlNS] = curAlias;
+                        // we only deal with the parseDeps starts with staticPrefix
+                        for(var j = 0, len = staticPrefix.length; j < len; j++) {
+                            var prefix = staticPrefix[j];
+                            if (tmpDepsArr[0] === prefix) {
+                                startWithPrefix = true;
+                            }
+                        }
+                        if(startWithPrefix) {
+
+                            tmpDepsArr.shift();
+                            // if starts with prefix, generate the absolute path for further reading
+                            parseDeps[i] = {
+                                path: src + '/' + tmpDepsArr.join('/') + '.js',
+                                ns: parseDeps[i]
+                            };
+
+                        } else {
+                            // remove this item
+                            parseDeps.splice(i, 1);
+                        }
+                    }
+
+                    var curAlias = {};
+                    // finally we get the used files of parseDeps in the matched html
+                    // then we read the files in parseDeps and calculate the hash value
+                    for(var i = 0, len = parseDeps.length; i < len; i++) {
+                        var fsContent = fs.readFileSync(parseDeps[i].path);
+                        curAlias[parseDeps[i].ns] = parseDeps[i].ns.replace(/\./g, '\/') + '-' + get16MD5(fsContent) + '.js';
+                    }
+
+                    aliasObj[htmlNS] = curAlias;
 
 
-                // 根据alias生成htmlNs的deps
-                var curDeps = {};
-                for(var alias in curAlias) {
-                    curDeps[alias] = moduleDeps[alias];
-                }
+                    // 根据alias生成htmlNs的deps
+                    for(var alias in curAlias) {
+                        curDeps[alias] = moduleDeps[alias];
+                    }
+                });
+
                 depsObj[htmlNS] = curDeps;
             }
         });
