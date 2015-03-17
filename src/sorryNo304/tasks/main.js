@@ -129,7 +129,7 @@ module.exports = exports = function(grunt) {
             }
 
             // parse the html file
-            var retHtml = fs.readFileSync(crtPath),
+            var retHtml = fs.readFileSync(crtPath, 'utf-8'),
                 htmlNS = getHtmlNS(hengineRoot, crtPath);
 
 
