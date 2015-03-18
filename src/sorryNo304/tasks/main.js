@@ -277,7 +277,10 @@ module.exports = exports = function(grunt) {
         if(target === 'scripts') {
             var filePathArr = filepath.split(path.sep);
             filePathArr.shift();
-            filePathArr.unshift('release');
+
+            // 获取dist根目录name
+            var dist = grunt.config.get('clean')['no304_clean_deleteReleaseFiles']['src'];
+            filePathArr.unshift(dist);
 
             var releasePathName = filePathArr.join(path.sep),
                 needDeleteFileArr = [],
