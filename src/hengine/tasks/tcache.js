@@ -1,7 +1,7 @@
 /**
  * Created by apple on 14-5-20.
  */
-var tcache = require('lbf-hengine').tcache,
+var tcache = require('lbf-hengine-new').tcache,
     defaultConf = tcache.conf;
 
 module.exports = exports = function(grunt){

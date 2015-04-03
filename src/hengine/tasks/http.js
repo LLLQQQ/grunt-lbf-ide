@@ -1,7 +1,7 @@
 /**
  * Created by apple on 14-5-20.
  */
-var httpServer = require('lbf-hengine').http,
+var httpServer = require('lbf-hengine-new').http,
     defaultConf = httpServer.conf;
 
 module.exports = exports = function(grunt){
