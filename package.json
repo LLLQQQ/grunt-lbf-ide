@@ -1,6 +1,6 @@
 {
   "name": "grunt-lbf-ide",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "Grunt Tasks for LBF IDE",
   "main": "index.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-copy": "~0.7.0",
     "js-beautify": "^1.5.4",
-    "lbf-hengine": "^1.0.6",
+    "lbf-hengine-new": "^0.x",
     "underscore": "^1.7.0"
   }
 }
